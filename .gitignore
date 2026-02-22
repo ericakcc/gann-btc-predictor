@@ -1,0 +1,4 @@
+__pycache__/
+*.pyc
+gann_output.json
+.claude/settings.local.json
