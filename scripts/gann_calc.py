@@ -24,9 +24,6 @@ import urllib.error
 from datetime import datetime, timedelta
 from collections import defaultdict
 
-# 修正 Windows 終端 Unicode 輸出問題
-sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8', errors='replace')
-
 # === 週期常數 ===
 
 STANDARD_CYCLES = [30, 45, 60, 72, 90, 120, 144, 150, 180, 210, 225, 240, 270, 300, 315, 330, 360, 720]
@@ -368,6 +365,10 @@ def check_seasonal_enhancement(confluences, seasonal_dates, tolerance=5):
 
 
 def main():
+    # 修正 Windows 終端 Unicode 輸出問題（只在 CLI 模式下啟用）
+    if hasattr(sys.stdout, "buffer"):
+        sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8', errors='replace')
+
     parser = argparse.ArgumentParser(description="江恩比特幣轉折點預測驗算")
     parser.add_argument("--pivots", required=False, default=None, help="JSON 格式的參考點陣列")
     parser.add_argument("--current", type=float, required=False, default=None, help="目前比特幣價格")
